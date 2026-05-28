@@ -2,7 +2,9 @@ import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { useState } from "react";
 
-export function SingIn() {
+export function SingUp() {
+  const [name, setName] = useState("");
+  const [confirmedPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isLoading = false;
@@ -14,6 +16,14 @@ export function SingIn() {
 
   return (
     <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
+      <Input
+        required
+        legend="Nome"
+        type="text"
+        placeholder="Insira seu Nome"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <Input
         required
         legend="E-mail"
@@ -30,14 +40,22 @@ export function SingIn() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <Input
+        required
+        legend="Confirme Sua senha"
+        type="password"
+        placeholder="123456"
+        value={confirmedPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
       <Button isLoading={isLoading} type="submit">
-        Entrar
+        Cadastrar
       </Button>
       <a
-        href="/signup"
+        href="/"
         className="text-sm font-semibold text-gray-100 mt-10 mb-4 text-center hover:to-gray-800 hover:underline transition ease-linear"
       >
-        Criar Conta
+        Já tenho um conta
       </a>
     </form>
   );
