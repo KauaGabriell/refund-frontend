@@ -1,4 +1,5 @@
 import { Input } from "../components/Input";
+import { Select } from "../components/Select";
 export function Refund() {
   return (
     <form className="bg-gray-500 w-full rounded-xl flex flex-col p-10 gap-6 lg:min-w-[512]">
@@ -11,6 +12,7 @@ export function Refund() {
         </p>
       </header>
       <Input required legend="Nome da Solicitação" />
+      <Select required legend="Categoria"/>
     </form>
   );
 }
