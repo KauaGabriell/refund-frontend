@@ -16,6 +16,7 @@ const variants = {
 export function Button({
   children,
   isLoading,
+  disabled,
   type = "button",
   variant = "base",
   className,
@@ -25,10 +26,11 @@ export function Button({
     <button
       type={type}
       {...rest}
-      disabled={isLoading}
+      disabled={disabled || isLoading}
       className={classMerge([
-        "flex items-center justify-center rounded-lg text-white bg-green-100 cursor-pointer hover:bg-green-200 transition ease-linear disabled:opacity-50 disabled:cursor-not-allowed p-4",
+        "flex items-center justify-center rounded-lg text-white bg-green-100 cursor-pointer hover:bg-green-200 transition ease-linear disabled:opacity-50 p-4",
         variants.button[variant],
+        isLoading && "cursor-progress",
         className,
       ])}
     >
