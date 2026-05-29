@@ -4,7 +4,7 @@ export function Confirm() {
   const location = useLocation();
   if (!location.state?.fromSubmit) return <Navigate to="/" />;
   return (
-    <div className="bg-gray-500 lg:w-lg rounded-xl flex flex-col items-center p-10 gap-6">
+    <div className="bg-gray-500 lg:w-lg rounded-xl flex flex-col items-center justify-center p-10 gap-6">
       <h1 className="text-2xl font-bold text-center text-green-100">
         Solicitação Enviada
       </h1>
