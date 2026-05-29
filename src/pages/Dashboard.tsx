@@ -4,12 +4,13 @@ import searchSvg from "../assets/search.svg";
 import { Button } from "../components/Button";
 import { RefundItem } from "../components/RefundItem";
 import { CATEGORIES } from "../utils/categories";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const REFUND_EXAMPLE = {
   id: "123",
   name: "Peixe",
   category: "Transport",
-  amount: "34,05",
+  amount: formatCurrency(55.23),
   categoryImg: CATEGORIES["transport"].icon,
 };
 
