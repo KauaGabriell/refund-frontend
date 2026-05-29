@@ -8,7 +8,7 @@ export function ManagerRoutes() {
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/refund/:id" element={<Refund />} />
       </Route>
       <Route path="*" element={<NotFound />} />
