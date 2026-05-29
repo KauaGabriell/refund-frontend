@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
-import { Refund } from "../pages/Refund";
-import { NotFound } from "../pages/NotFound";
+import { Refund } from "./Refund";
+import { NotFound } from "./NotFound";
 import { AppLayout } from "../components/AppLayout";
-import { Confirm } from "../pages/Confirm";
+import { Confirm } from "./Confirm";
 
 export function EmployeeRoutes() {
   return (
