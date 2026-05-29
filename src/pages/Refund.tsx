@@ -2,6 +2,7 @@ import { CATEGORIES, CATEGORIES_KEYS } from "../utils/categories";
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
 import { useState } from "react";
+import { Upload } from "../components/Upload";
 export function Refund() {
   const [category, setCategory] = useState("");
   return (
@@ -30,6 +31,7 @@ export function Refund() {
         </Select>
         <Input legend="valor" required />
       </div>
+      <Upload filename="peixe.png" />
     </form>
   );
 }
