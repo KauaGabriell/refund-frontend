@@ -8,8 +8,8 @@ type Props = React.ComponentProps<"button"> & {
 const variants = {
   button: {
     base: "h-12",
-    icon: "h-12 w-12",
-    iconSmall: "h-10 w-10",
+    icon: "h-12 w-12 p-0",
+    iconSmall: "h-8 w-8 p-0",
   },
 };
 
