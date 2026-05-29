@@ -1,3 +1,7 @@
-export function Refund(){
-    return <h1>Hello Word</h1>
+export function Refund() {
+  return (
+    <div>
+      <h1>Hello Word</h1>
+    </div>
+  );
 }
