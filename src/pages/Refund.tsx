@@ -4,7 +4,7 @@ import { Select } from "../components/Select";
 import { useState } from "react";
 import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export function Refund() {
   const [category, setCategory] = useState("");
@@ -14,9 +14,11 @@ export function Refund() {
   const [filename, setFilename] = useState<File | null>(null);
 
   const navigate = useNavigate();
+  const params = useParams<{ id: string }>();
 
   function onSubmit(e: React.SubmitEvent) {
     e.preventDefault();
+    if (params.id) return navigate(-1);
 
     navigate("/confirm", { state: { fromSubmit: true } });
   }
@@ -39,6 +41,7 @@ export function Refund() {
         legend="Nome da Solicitação"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        disabled={!!params.id}
       />
       <div className="flex gap-4">
         <Select
@@ -46,6 +49,7 @@ export function Refund() {
           legend="Categoria"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          disabled={!!params.id}
         >
           {CATEGORIES_KEYS.map((category) => (
             <option key={category} value={category}>
@@ -58,6 +62,7 @@ export function Refund() {
           required
           value={mount}
           onChange={(e) => setMount(e.target.value)}
+          disabled={!!params.id}
         />
       </div>
       <Upload
@@ -65,7 +70,7 @@ export function Refund() {
         onChange={(e) => e.target.files && setFilename(e.target.files[0])}
       />
       <Button type="submit" isLoading={isLoading}>
-        Enviar
+        {params.id ? "Voltar" : "Enviar"}
       </Button>
     </form>
   );
