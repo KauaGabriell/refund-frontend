@@ -35,7 +35,17 @@ export function Dashboard() {
           <img src={searchSvg} alt="Icone de Lupa" />
         </Button>
       </form>
-      <RefundItem data={REFUND_EXAMPLE} />
+      <div className="mt-6 flex flex-col gap-4 max-h-80 overflow-y-scroll">
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+        <RefundItem data={REFUND_EXAMPLE} />
+      </div>
     </div>
   );
 }
