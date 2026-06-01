@@ -1,7 +1,12 @@
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
+
+import { useNavigate } from "react-router";
 import { useState } from "react";
+
 import { z, ZodError } from "zod";
+import { AxiosError } from "axios";
+import { api } from "../services/api";
 
 const singUpSchema = z
   .object({
@@ -26,17 +31,29 @@ export function SingUp() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function onSubmit(e: React.SubmitEvent) {
+  const navigate = useNavigate();
+
+  async function onSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
     try {
       setIsLoading(true);
 
-      const data = singUpSchema.parse({ name, email, password, passwordConfirm });
+      const data = singUpSchema.parse({
+        name,
+        email,
+        password,
+        passwordConfirm,
+      });
+      await api.post("/users", data);
+
+      if (confirm("Cadastrado com Sucesso. Deseja ir para tela de login?"))
+        navigate("/");
     } catch (error) {
-      if (error instanceof ZodError) {
-        return alert(error.issues[0].message);
-      }
+      if (error instanceof ZodError) return alert(error.issues[0].message);
+
+      if (error instanceof AxiosError)
+        return alert(error.response?.data.message);
 
       alert("Não foi possível cadastrar");
     } finally {
