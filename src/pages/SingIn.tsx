@@ -1,35 +1,62 @@
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { useState } from "react";
+
+import { useActionState } from "react";
+import { useAuth } from "../hooks/useContext";
+
+import { api } from "../services/api";
+import { z, ZodError } from "zod";
+import { AxiosError } from "axios";
+
+const signInSchema = z.object({
+  email: z.email({ message: "E-mail inválido" }),
+  password: z.string().trim().min(1, { message: "Informe a Senha" }),
+});
 
 export function SingIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const isLoading = false;
+  const [state, formAction, isLoading] = useActionState(signIn, null);
+  const auth = useAuth();
 
-  function onSubmit(e: React.SubmitEvent) {
-    e.preventDefault();
-    alert("enviado");
+  async function signIn(_prevState: any, formData: FormData) {
+    try {
+      const data = signInSchema.parse({
+        email: formData.get("email"),
+        password: formData.get("password"),
+      });
+
+      const response = await api.post("/sessions", data);
+      auth.save(response.data)
+    } catch (error) {
+      if (error instanceof ZodError)
+        return { message: error.issues[0].message };
+
+      if (error instanceof AxiosError)
+        return { message: error.response?.data.message };
+
+      return alert("Não foi possível fazer o login");
+    }
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full flex flex-col gap-4">
+    <form action={formAction} className="w-full flex flex-col gap-4">
       <Input
         required
         legend="E-mail"
         type="email"
         placeholder="Seu Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        name="email"
       />
       <Input
         required
         legend="Senha"
         type="password"
         placeholder="123456"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        name="password"
       />
+
+      <p className="text-sm text-red-600 text-center my-4 font-medium">
+        {state?.message}
+      </p>
       <Button isLoading={isLoading} type="submit">
         Entrar
       </Button>
