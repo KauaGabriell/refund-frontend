@@ -4,7 +4,7 @@ import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
 import fileSvg from "../assets/file.svg";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { CATEGORIES, CATEGORIES_KEYS } from "../utils/categories";
@@ -12,6 +12,7 @@ import { z, ZodError } from "zod";
 import { AxiosError } from "axios";
 
 import { api } from "../services/api";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const refundSchema = z.object({
   name: z.string().trim().min(1, { message: "Informe o Nome da Solicitação" }),
@@ -27,6 +28,7 @@ export function Refund() {
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -68,6 +70,25 @@ export function Refund() {
       setIsLoading(false);
     }
   }
+
+  async function fetchRefunds(id: string) {
+    try {
+      const { data } = await api.get<RefundApiResponse>(`/refunds/${id}`);
+      setName(data.name);
+      setCategory(data.category);
+      setAmount(formatCurrency(data.amount));
+      setFileUrl(data.filename);
+    } catch (error) {
+      if (error instanceof AxiosError)
+        return alert(error.response?.data.message);
+
+      alert("Não foi possível carregar");
+    }
+  }
+
+  useEffect(() => {
+    if (params.id) fetchRefunds(params.id);
+  }, [params.id]);
 
   return (
     <form
@@ -112,9 +133,9 @@ export function Refund() {
         />
       </div>
 
-      {params.id ? (
+      {params.id && fileUrl ? (
         <a
-          href="https://google.com"
+          href={`http://localhost:1111/uploads/${fileUrl}`}
           target="blank"
           className="text-sm text-green-100 font-semibold flex items-center justify-center gap-2 my-6 hover:opacity-70 transition ease-linear"
         >
