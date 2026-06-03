@@ -9,28 +9,29 @@ import { formatCurrency } from "../utils/formatCurrency";
 import { api } from "../services/api";
 import { AxiosError } from "axios";
 
-const REFUND_EXAMPLE = {
-  id: "123",
-  name: "Peixe",
-  category: "Transport",
-  amount: formatCurrency(55.23),
-  categoryImg: CATEGORIES["transport"].icon,
-};
-
 const PER_PAGE = 5;
 
 export function Dashboard() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(1);
-  const [totalOfPages, _setTotalOfPages] = useState(0);
-  const [refunds] = useState<RefundItemProps[]>([REFUND_EXAMPLE]);
+  const [totalOfPages, setTotalOfPages] = useState(0);
+  const [refunds, setRefunds] = useState<RefundItemProps[]>([]);
 
   async function fetchRefunds() {
     try {
       const response = await api.get<RefundsPaginationApiResponse>(
         `/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`,
       );
-      console.log(response.data);
+      setRefunds(
+        response.data.refunds.map((refund) => ({
+          id: refund.id,
+          name: refund.user.name,
+          description: refund.name,
+          amount: formatCurrency(refund.amount),
+          categoryImg: CATEGORIES[refund.category].icon,
+        })),
+      );
+      setTotalOfPages(response.data.pagination.totalPages);
     } catch (error) {
       if (error instanceof AxiosError) alert(error.response?.data.message);
 
