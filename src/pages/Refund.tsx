@@ -52,7 +52,7 @@ export function Refund() {
 
       await api.post("/refunds", {
         ...data,
-        file: response.data.filename,
+        filename: response.data,
       });
 
       navigate("/confirm", { state: { fromSubmit: true } });
